@@ -1,0 +1,58 @@
+<div class="kanban-board">
+  <div class="kanban-header">
+    <h1>Task Board</h1>
+  </div>
+  
+  <div class="kanban-columns">
+    <!-- To Do Column -->
+    <div class="kanban-column"
+         (drop)="onTaskDrop($event, 'todo')"
+         (dragover)="onDragOver($event)">
+      <div class="column-header">
+        <h2>{{ getStatusLabel('todo') }}</h2>
+        <span class="task-count">{{ todoTasks.length }}</span>
+        <button class="add-task-btn" (click)="createTask('todo')">+</button>
+      </div>
+      <div class="task-list">
+        <app-task-card 
+          *ngFor="let task of todoTasks" 
+          [task]="task">
+        </app-task-card>
+      </div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="kanban-column"
+         (drop)="onTaskDrop($event, 'in-progress')"
+         (dragover)="onDragOver($event)">
+      <div class="column-header">
+        <h2>{{ getStatusLabel('in-progress') }}</h2>
+        <span class="task-count">{{ inProgressTasks.length }}</span>
+        <button class="add-task-btn" (click)="createTask('in-progress')">+</button>
+      </div>
+      <div class="task-list">
+        <app-task-card 
+          *ngFor="let task of inProgressTasks" 
+          [task]="task">
+        </app-task-card>
+      </div>
+    </div>
+
+    <!-- Done Column -->
+    <div class="kanban-column"
+         (drop)="onTaskDrop($event, 'done')"
+         (dragover)="onDragOver($event)">
+      <div class="column-header">
+        <h2>{{ getStatusLabel('done') }}</h2>
+        <span class="task-count">{{ doneTasks.length }}</span>
+        <button class="add-task-btn" (click)="createTask('done')">+</button>
+      </div>
+      <div class="task-list">
+        <app-task-card 
+          *ngFor="let task of doneTasks" 
+          [task]="task">
+        </app-task-card>
+      </div>
+    </div>
+  </div>
+</div>

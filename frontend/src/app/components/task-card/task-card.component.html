@@ -1,0 +1,38 @@
+<div class="task-card" 
+     draggable="true" 
+     (dragstart)="onDragStart($event)"
+     [ngClass]="{ 'overdue': isOverdue() }">
+  
+  <div class="task-header">
+    <span class="priority-badge" [ngClass]="getPriorityClass()">
+      {{ getPriorityLabel() }}
+    </span>
+    <button class="delete-btn" (click)="deleteTask()">×</button>
+  </div>
+
+  <h3 class="task-title">{{ task.title }}</h3>
+  
+  <p class="task-description" *ngIf="task.description">
+    {{ task.description }}
+  </p>
+
+  <div class="task-meta">
+    <div class="task-info" *ngIf="task.dueDate">
+      <span class="icon">📅</span>
+      <span class="date">{{ formatDate(task.dueDate) }}</span>
+    </div>
+    
+    <div class="task-info" *ngIf="task.estimatedHours">
+      <span class="icon">⏱️</span>
+      <span>{{ task.estimatedHours }}h</span>
+    </div>
+
+    <div class="task-tags" *ngIf="task.tags && task.tags.length > 0">
+      <span class="tag" *ngFor="let tag of task.tags">{{ tag }}</span>
+    </div>
+  </div>
+
+  <div class="task-footer" *ngIf="task.assignedTo">
+    <span class="assignee">👤 Assigned</span>
+  </div>
+</div>
