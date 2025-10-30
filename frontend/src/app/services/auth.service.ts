@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 import { User, LoginCredentials, RegisterData, UserProfile } from '../models/user.model';
 import { User as FirebaseUser } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -87,10 +88,10 @@ export class AuthService {
         createdAt: new Date()
       };
       
-      // Use addDocument or set the document with the user ID
+      // Use setDoc to create the document with the user ID
       const db = this.firebaseService.getFirestore();
-      const userRef = (await import('firebase/firestore')).doc(db, 'users', userCredential.user.uid);
-      await (await import('firebase/firestore')).setDoc(userRef, userData);
+      const userRef = doc(db, 'users', userCredential.user.uid);
+      await setDoc(userRef, userData);
       await this.loadUserProfile(userCredential.user);
       this.router.navigate(['/dashboard']);
     } catch (error) {

@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FirebaseService } from './firebase.service';
 import { Task, CreateTaskDto, UpdateTaskDto } from '../models/task.model';
-import { where, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -117,12 +117,9 @@ export class TaskService {
   async getTasksByStatus(status: string): Promise<Task[]> {
     try {
       const db = this.firebaseService.getFirestore();
-      const tasksRef = (await import('firebase/firestore')).collection(db, 'tasks');
-      const q = (await import('firebase/firestore')).query(
-        tasksRef,
-        (await import('firebase/firestore')).where('status', '==', status)
-      );
-      const querySnapshot = await (await import('firebase/firestore')).getDocs(q);
+      const tasksRef = collection(db, 'tasks');
+      const q = query(tasksRef, where('status', '==', status));
+      const querySnapshot = await getDocs(q);
       
       const tasks: Task[] = [];
       querySnapshot.forEach((doc) => {
@@ -146,12 +143,9 @@ export class TaskService {
   async getTasksByAssignee(userId: string): Promise<Task[]> {
     try {
       const db = this.firebaseService.getFirestore();
-      const tasksRef = (await import('firebase/firestore')).collection(db, 'tasks');
-      const q = (await import('firebase/firestore')).query(
-        tasksRef,
-        (await import('firebase/firestore')).where('assignedTo', '==', userId)
-      );
-      const querySnapshot = await (await import('firebase/firestore')).getDocs(q);
+      const tasksRef = collection(db, 'tasks');
+      const q = query(tasksRef, where('assignedTo', '==', userId));
+      const querySnapshot = await getDocs(q);
       
       const tasks: Task[] = [];
       querySnapshot.forEach((doc) => {

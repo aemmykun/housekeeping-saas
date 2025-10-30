@@ -24,7 +24,7 @@ export class App {
 }
 
 const routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' as const },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: KanbanBoardComponent },
