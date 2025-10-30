@@ -81,7 +81,15 @@ export function requireRole(...roles: string[]) {
         return;
       }
 
-      const userRole = req.user.role || 'staff';
+      const userRole = req.user.role;
+      
+      if (!userRole) {
+        res.status(403).json({ 
+          error: 'User role not defined',
+          message: 'Contact administrator to set your role'
+        });
+        return;
+      }
       
       if (!roles.includes(userRole)) {
         res.status(403).json({ 

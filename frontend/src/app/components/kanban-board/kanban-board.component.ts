@@ -5,11 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 import { TaskService } from '../../services/task.service';
 import { AuthService } from '../../services/auth.service';
 import { Task, CreateTaskDto } from '../../models/task.model';
+import { TaskCardComponent } from '../task-card/task-card.component';
 
 @Component({
   selector: 'app-kanban-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TaskCardComponent],
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.scss']
 })

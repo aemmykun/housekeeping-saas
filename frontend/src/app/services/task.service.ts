@@ -116,15 +116,27 @@ export class TaskService {
 
   async getTasksByStatus(status: string): Promise<Task[]> {
     try {
-      const tasks = await this.firebaseService.getDocuments('tasks');
-      return tasks
-        .filter((task: any) => task.status === status)
-        .map((task: any) => ({
-          ...task,
-          createdAt: task.createdAt?.toDate ? task.createdAt.toDate() : new Date(task.createdAt),
-          updatedAt: task.updatedAt?.toDate ? task.updatedAt.toDate() : new Date(task.updatedAt),
-          dueDate: task.dueDate?.toDate ? task.dueDate.toDate() : task.dueDate
-        } as Task));
+      const db = this.firebaseService.getFirestore();
+      const tasksRef = (await import('firebase/firestore')).collection(db, 'tasks');
+      const q = (await import('firebase/firestore')).query(
+        tasksRef,
+        (await import('firebase/firestore')).where('status', '==', status)
+      );
+      const querySnapshot = await (await import('firebase/firestore')).getDocs(q);
+      
+      const tasks: Task[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        tasks.push({
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt),
+          updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt),
+          dueDate: data.dueDate?.toDate ? data.dueDate.toDate() : data.dueDate
+        } as Task);
+      });
+      
+      return tasks;
     } catch (error) {
       console.error('Error getting tasks by status:', error);
       throw error;
@@ -133,15 +145,27 @@ export class TaskService {
 
   async getTasksByAssignee(userId: string): Promise<Task[]> {
     try {
-      const tasks = await this.firebaseService.getDocuments('tasks');
-      return tasks
-        .filter((task: any) => task.assignedTo === userId)
-        .map((task: any) => ({
-          ...task,
-          createdAt: task.createdAt?.toDate ? task.createdAt.toDate() : new Date(task.createdAt),
-          updatedAt: task.updatedAt?.toDate ? task.updatedAt.toDate() : new Date(task.updatedAt),
-          dueDate: task.dueDate?.toDate ? task.dueDate.toDate() : task.dueDate
-        } as Task));
+      const db = this.firebaseService.getFirestore();
+      const tasksRef = (await import('firebase/firestore')).collection(db, 'tasks');
+      const q = (await import('firebase/firestore')).query(
+        tasksRef,
+        (await import('firebase/firestore')).where('assignedTo', '==', userId)
+      );
+      const querySnapshot = await (await import('firebase/firestore')).getDocs(q);
+      
+      const tasks: Task[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        tasks.push({
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt),
+          updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt),
+          dueDate: data.dueDate?.toDate ? data.dueDate.toDate() : data.dueDate
+        } as Task);
+      });
+      
+      return tasks;
     } catch (error) {
       console.error('Error getting tasks by assignee:', error);
       throw error;

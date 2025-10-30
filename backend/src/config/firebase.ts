@@ -22,7 +22,14 @@ export function initializeFirebase(): admin.app.App {
     const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
     
     if (serviceAccountPath && fs.existsSync(serviceAccountPath)) {
-      const serviceAccount = require(path.resolve(serviceAccountPath));
+      // Validate path to prevent path traversal attacks
+      const resolvedPath = path.resolve(serviceAccountPath);
+      if (!resolvedPath.startsWith(process.cwd())) {
+        throw new Error('Service account path must be within project directory');
+      }
+      
+      const serviceAccountData = fs.readFileSync(resolvedPath, 'utf8');
+      const serviceAccount = JSON.parse(serviceAccountData);
       
       firebaseApp = admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)

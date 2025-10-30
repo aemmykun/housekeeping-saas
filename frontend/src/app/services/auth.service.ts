@@ -87,7 +87,10 @@ export class AuthService {
         createdAt: new Date()
       };
       
-      await this.firebaseService.updateDocument('users', userCredential.user.uid, userData);
+      // Use addDocument or set the document with the user ID
+      const db = this.firebaseService.getFirestore();
+      const userRef = (await import('firebase/firestore')).doc(db, 'users', userCredential.user.uid);
+      await (await import('firebase/firestore')).setDoc(userRef, userData);
       await this.loadUserProfile(userCredential.user);
       this.router.navigate(['/dashboard']);
     } catch (error) {

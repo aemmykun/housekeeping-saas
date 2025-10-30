@@ -43,11 +43,13 @@ export class NavbarComponent implements OnInit {
   }
 
   getUserInitials(): string {
-    if (!this.currentUser) return '';
-    const names = this.currentUser.displayName.split(' ');
-    if (names.length >= 2) {
+    if (!this.currentUser || !this.currentUser.displayName) return '';
+    const displayName = this.currentUser.displayName.trim();
+    if (!displayName) return '';
+    const names = displayName.split(' ');
+    if (names.length >= 2 && names[0] && names[1]) {
       return `${names[0][0]}${names[1][0]}`.toUpperCase();
     }
-    return this.currentUser.displayName.substring(0, 2).toUpperCase();
+    return displayName.substring(0, Math.min(2, displayName.length)).toUpperCase();
   }
 }

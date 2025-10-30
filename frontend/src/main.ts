@@ -1,8 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterOutlet } from '@angular/router';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,7 +13,7 @@ import { RegisterComponent } from './app/components/auth/register.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, KanbanBoardComponent],
+  imports: [NavbarComponent, RouterOutlet],
   template: `
     <app-navbar></app-navbar>
     <router-outlet></router-outlet>
@@ -25,7 +24,7 @@ export class App {
 }
 
 const routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' as const },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: KanbanBoardComponent },
