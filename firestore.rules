@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user is the owner
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Users can read and write their own document
+      allow read, write: if isAuthenticated() && isOwner(userId);
+      
+      // Allow creating a user document on first login
+      allow create: if isAuthenticated() && isOwner(userId);
+    }
+    
+    // Tasks collection
+    match /tasks/{taskId} {
+      // Any authenticated user can read tasks
+      allow read: if isAuthenticated();
+      
+      // Only authenticated users can create tasks
+      // The creator must be the authenticated user
+      allow create: if isAuthenticated() 
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.description is string
+        && request.resource.data.status in ['todo', 'in-progress', 'done']
+        && request.resource.data.priority in ['low', 'medium', 'high'];
+      
+      // Users can update tasks they created or are assigned to
+      allow update: if isAuthenticated() 
+        && (resource.data.createdBy == request.auth.uid 
+            || resource.data.assignedTo == request.auth.uid)
+        && request.resource.data.createdBy == resource.data.createdBy; // Can't change creator
+      
+      // Only the creator can delete tasks
+      allow delete: if isAuthenticated() 
+        && resource.data.createdBy == request.auth.uid;
+    }
+    
+    // Comments collection (if you add comments feature later)
+    match /tasks/{taskId}/comments/{commentId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() 
+        && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isAuthenticated() 
+        && resource.data.createdBy == request.auth.uid;
+    }
+  }
+}
