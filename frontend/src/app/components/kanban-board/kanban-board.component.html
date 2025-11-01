@@ -1,0 +1,86 @@
+<div class="kanban-board">
+  <div class="board-header">
+    <h1>Task Board</h1>
+    <button mat-raised-button color="primary" (click)="openNewTaskDialog()">
+      <mat-icon>add</mat-icon>
+      Add Task
+    </button>
+  </div>
+
+  <div class="error-message" *ngIf="error">
+    <mat-icon>error</mat-icon>
+    {{ error }}
+  </div>
+
+  <div class="loading-spinner" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+    <p>Loading tasks...</p>
+  </div>
+
+  <div class="kanban-columns" *ngIf="!isLoading">
+    <div class="kanban-column" *ngFor="let column of columns">
+      <div class="column-header">
+        <h2>{{ column.title }}</h2>
+        <span class="task-count">{{ column.tasks.length }}</span>
+      </div>
+
+      <div
+        class="task-list"
+        cdkDropList
+        [id]="column.id"
+        [cdkDropListData]="column.tasks"
+        [cdkDropListConnectedTo]="getConnectedLists()"
+        (cdkDropListDropped)="drop($event, column.id)">
+        
+        <div
+          class="task-card"
+          *ngFor="let task of column.tasks"
+          cdkDrag
+          [class]="getPriorityClass(task.priority)">
+          
+          <div class="task-card-content">
+            <div class="task-header">
+              <h3>{{ task.title }}</h3>
+              <button mat-icon-button [matMenuTriggerFor]="menu" class="task-menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openEditTaskDialog(task)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deleteTask(task.id)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </div>
+
+            <p class="task-description">{{ task.description }}</p>
+
+            <div class="task-meta">
+              <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                {{ task.priority }}
+              </span>
+              <span class="assigned-to" *ngIf="task.assignedToName">
+                <mat-icon>person</mat-icon>
+                {{ task.assignedToName }}
+              </span>
+              <span class="due-date" *ngIf="task.dueDate">
+                <mat-icon>calendar_today</mat-icon>
+                {{ task.dueDate | date:'short' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="drag-placeholder" *cdkDragPlaceholder></div>
+        </div>
+
+        <div class="empty-state" *ngIf="column.tasks.length === 0">
+          <mat-icon>inbox</mat-icon>
+          <p>No tasks</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
