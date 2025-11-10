@@ -3,34 +3,55 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
 
 # Build outputs
 dist/
-dist-server/
 build/
-tmp/
-out-tsc/
 *.js.map
+*.d.ts.map
 
-# IDEs and editors
-.idea/
+# IDEs
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
-.DS_Store
 
-# Environment files
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
 .env
 .env.local
 .env.*.local
-*.env
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Angular
+frontend/.angular/
+frontend/dist/
+frontend/tmp/
+
+# Backend compiled files
+backend/dist/
+backend/build/
 
 # Firebase
 .firebase/
 firebase-debug.log
 firestore-debug.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
 ui-debug.log
 
 # Testing

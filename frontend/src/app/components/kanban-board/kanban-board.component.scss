@@ -4,6 +4,14 @@
   background-color: #f5f5f5;
 }
 
+.kanban-header {
+  margin-bottom: 20px;
+  
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+  }
 .board-header {
   display: flex;
   justify-content: space-between;
@@ -55,12 +63,24 @@
 .kanban-columns {
   display: flex;
   gap: 20px;
+  height: calc(100vh - 120px);
+  overflow-x: auto;
   overflow-x: auto;
   padding-bottom: 20px;
 }
 
 .kanban-column {
   flex: 1;
+  min-width: 300px;
+  background-color: #e8e8e8;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    background-color: #e0e0e0;
+  }
   min-width: 320px;
   background-color: #e3f2fd;
   border-radius: 8px;
@@ -70,6 +90,52 @@
 
 .column-header {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .task-count {
+    background-color: #666;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .add-task-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    
+    &:hover {
+      background-color: #45a049;
+    }
+  }
+}
+
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;

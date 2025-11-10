@@ -1,3 +1,8 @@
+# Frontend Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
 # Stage 1: Build
 FROM node:16-alpine AS builder
 
@@ -15,6 +20,11 @@ RUN npm ci
 # Copy source code
 COPY . .
 
+# Expose port
+EXPOSE 4200
+
+# Start development server
+CMD ["npm", "start"]
 # Build the application
 RUN ng build --configuration production
 
