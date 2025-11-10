@@ -5,6 +5,8 @@ import { FirebaseService } from './firebase.service';
 import { User, LoginCredentials, RegisterData, UserProfile } from '../models/user.model';
 import { User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
+import { Auth, authState, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +70,16 @@ export class AuthService {
       this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Login error:', error);
+  user$: Observable<User | null>;
+
+  constructor(private auth: Auth) {
+    this.user$ = authState(this.auth);
+  }
+
+  async login(email: string, password: string): Promise<any> {
+    try {
+      return await signInWithEmailAndPassword(this.auth, email, password);
+    } catch (error) {
       throw error;
     }
   }
@@ -96,6 +108,10 @@ export class AuthService {
       this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Registration error:', error);
+  async register(email: string, password: string): Promise<any> {
+    try {
+      return await createUserWithEmailAndPassword(this.auth, email, password);
+    } catch (error) {
       throw error;
     }
   }
@@ -107,6 +123,11 @@ export class AuthService {
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Logout error:', error);
+  async loginWithGoogle(): Promise<any> {
+    try {
+      const provider = new GoogleAuthProvider();
+      return await signInWithPopup(this.auth, provider);
+    } catch (error) {
       throw error;
     }
   }
@@ -126,5 +147,19 @@ export class AuthService {
       return user.getIdToken();
     }
     return null;
+  async logout(): Promise<void> {
+    return await signOut(this.auth);
+  }
+
+  getCurrentUser(): User | null {
+    return this.auth.currentUser;
+  }
+
+  async getIdToken(): Promise<string | undefined> {
+    const user = this.auth.currentUser;
+    if (user) {
+      return await user.getIdToken();
+    }
+    return undefined;
   }
 }

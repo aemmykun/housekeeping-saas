@@ -1,0 +1,28 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <div class="toolbar-content">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">cleaning_services</mat-icon>
+      <span class="app-name">Housekeeping SaaS</span>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="user-section" *ngIf="user">
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <mat-icon *ngIf="!user.photoURL">account_circle</mat-icon>
+        <img *ngIf="user.photoURL" [src]="user.photoURL" alt="User avatar" class="user-avatar">
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <div class="user-info">
+          <div class="user-name">{{ getUserDisplayName() }}</div>
+          <div class="user-email">{{ user.email }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

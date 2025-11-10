@@ -25,4 +25,7 @@ export interface RegisterData {
   email: string;
   password: string;
   displayName: string;
+  displayName?: string;
+  photoURL?: string;
+  createdAt?: Date;
 }

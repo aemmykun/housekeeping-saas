@@ -52,3 +52,13 @@ firestore-debug.log
 tmp/
 temp/
 *.tmp
+ui-debug.log
+
+# Testing
+coverage/
+.nyc_output/
+*.log
+
+# Angular specific
+.angular/
+.sass-cache/
