@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-This guide will help you get the Housekeeping SaaS application up and running quickly.
+This guide will help you get cloudKklean application up and running quickly.
 
 ## Prerequisites Checklist
 
@@ -17,7 +17,7 @@ This guide will help you get the Housekeeping SaaS application up and running qu
 #### Create Firebase Project
 1. Go to https://console.firebase.google.com/
 2. Click "Add project"
-3. Enter project name: "housekeeping-saas" (or your choice)
+3. Enter project name: "cloudKklean" (or your choice)
 4. Disable Google Analytics (optional)
 5. Click "Create project"
 
@@ -53,8 +53,8 @@ This guide will help you get the Housekeeping SaaS application up and running qu
 
 ```bash
 # Clone repository
-git clone https://github.com/aemmykun/housekeeping-saas.git
-cd housekeeping-saas
+git clone https://github.com/aemmykun/cloudklean.git
+cd cloudklean
 
 # Install backend dependencies
 cd backend
