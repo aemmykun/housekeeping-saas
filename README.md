@@ -1,6 +1,6 @@
-# Housekeeping SaaS Tool
+# Cloudklean
 
-A modern housekeeping SaaS application featuring a Kanban board for task management, built with Angular frontend, Node.js/Express backend, and Firebase for data storage and authentication.
+A modern cloudklean application featuring a Kanban board for task management, built with Angular frontend, Node.js/Express backend, and Firebase for data storage and authentication.
 
 ## Features
 
@@ -36,7 +36,7 @@ A modern housekeeping SaaS application featuring a Kanban board for task managem
 ## Project Structure
 
 ```
-housekeeping-saas/
+cloudklean/
 ├── frontend/                    # Angular frontend application
 │   ├── src/
 │   │   ├── app/
